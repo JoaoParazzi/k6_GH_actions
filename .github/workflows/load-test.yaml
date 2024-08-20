@@ -2,6 +2,7 @@ name: K6 load test
 on: [push]
 permissions:
   contents: write
+  pages: write   # Necessário para permitir que o workflow configure o GitHub Pages
 jobs:
   build: 
     name: K6 load test
@@ -13,19 +14,31 @@ jobs:
       - name: step 2 - run k6 load test
         uses: grafana/k6-action@v0.2.0
         with: 
-          filename: mao_na_massa/parte1_smoke.js      
+          filename: mao_na_massa/parte1_smoke.js
 
-      - run: ls & mkdir report & mv index.html report
-      
-      - name: step 3 - upload artifact
+      - name: step 3 - move report
+        run: |
+          ls
+          mkdir report
+          mv index.html report
+
+      - name: step 4 - upload artifact
         uses: actions/upload-artifact@v3
         with: 
-          name: relatorio de testes de performance
+          name: relatorio de teste de performance 
           path: report
-       
-      - name: step 4 - publish report
+
+      - name: step 5 - publish report
         uses: peaceiris/actions-gh-pages@v3
         with: 
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
-          publish_dir: report 
+          publish_dir: report
+
+      - name: step 6 - configure GitHub Pages
+        run: |
+          curl -X PUT \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/${{ github.repository }}/pages \
+            -d '{"source":{"branch":"gh-pages","path":"/"}}'
