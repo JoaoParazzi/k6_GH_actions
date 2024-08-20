@@ -15,13 +15,14 @@ jobs:
         with: 
           filename: mao_na_massa/parte1_smoke.js
     
+      - name: step 3 - move report
+        run: |
+          ls
+          mkdir report
+          mv index.html report
 
-    - run: ls & mkdir report & mv index.html report
-
-    - name: step 4 - upoload artifact
-      uses: actions/upload-artifact@v3
-      with: 
-        name: relatorio de teste de performance 
-        path: report
-      
-    
+      - name: step 4 - upload artifact
+        uses: actions/upload-artifact@v3
+        with: 
+          name: relatorio de teste de performance 
+          path: report
