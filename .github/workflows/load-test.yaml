@@ -14,3 +14,14 @@ jobs:
         uses: grafana/k6-action@v0.2.0
         with: 
           filename: mao_na_massa/parte1_smoke.js
+    
+
+    - run: ls & mkdir report & mv index.html report
+
+    - name: step 4 - upoload artifact
+      uses: actions/upload-artifact@v3
+      with: 
+        name: relatorio de teste de performance 
+        path: report
+      
+    
