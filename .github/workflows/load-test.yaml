@@ -13,26 +13,19 @@ jobs:
       - name: step 2 - run k6 load test
         uses: grafana/k6-action@v0.2.0
         with: 
-          filename: mao_na_massa/parte1_smoke.js
+          filename: scripts/test.js
 
-      - name: step 3 - move report
-        run: |
-          ls
-          mkdir report
-          mv index.html report
-
-      - name: step 3.5 - list report directory
-        run: ls -al report
-
-      - name: step 4 - upload artifact
+      - run: ls & mkdir report & mv index.html report
+      
+      - name: step 3 - upload artifact
         uses: actions/upload-artifact@v3
         with: 
-          name: relatorio de teste de performance 
+          name: relatorio de testes de performance
           path: report
-
-      - name: step 5 - publish report
+      
+      - name: step 4 - publish report
         uses: peaceiris/actions-gh-pages@v3
-        with: 
+        with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: report
