@@ -12,3 +12,4 @@ jobs:
     - uses: grafana/k6-actions@v0.2.0
     - with:
       filename: mao_na_massa/parte1_smoke.js
+   
